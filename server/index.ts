@@ -3,7 +3,6 @@ import * as path from "path";
 
 const app = express();
 const port = 3000;
-const staticDirPath = path.resolve(__dirname, "../../dist");
 
 app.get("/", (req, res) => {
   res.status(200).send({ message: "Server is running" });
