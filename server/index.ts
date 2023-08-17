@@ -6,11 +6,14 @@ import {
   getTasks,
   updateTask,
 } from "./controllers/task-controller";
+import * as cors from "cors";
 
 const app = express();
+app.use(cors());
+app.use(express.json());
 const port = 3000;
 
-app.get("/test", (req, res) => {
+app.get("/api", (req, res) => {
   res.status(200).send({ message: "Server is running" });
 });
 
@@ -18,7 +21,7 @@ app.post("/api/task", async (req, res) => {
   const { taskId, columnId, content } = req.body;
   try {
     const task = await createTask(taskId, columnId, content);
-    res.status(200).json(task);
+    res.status(200).json({ messaje: "Task created", task });
   } catch (error) {
     res.status(500).json({ message: `Error creating task ${error}` });
   }
@@ -43,7 +46,7 @@ app.get("/api/task/byColumn/:columnId", async (req, res) => {
   }
 });
 
-app.patch("/api/task/updateTask/:taskId", async (req, res) => {
+app.patch("/api/task/:taskId", async (req, res) => {
   const { taskId } = req.params;
   const { columnId, content } = req.body;
   try {
